@@ -1,4 +1,5 @@
 import requests
+import os
 
 
 def translate(way_text, way_result, lang_first, lang_sec='ru'):
@@ -9,9 +10,9 @@ def translate(way_text, way_result, lang_first, lang_sec='ru'):
               'key': 'trnsl.1.1.20190210T165957Z.213a8d8cc9ee59bf.316e87145b5e5bf90130e772fba39bc568290b4a'}
     write_list = []
     with open(way_text, encoding='utf-8') as f:
-        for line in f.readlines():
+        for line in f:
             data = {'text': line}
-            resp = requests.get(URL, data=data, params=params)
+            resp = requests.post(URL, data=data, params=params)
             write_list.append(resp.json()['text'][0])
 
     write_str = ''.join(write_list)
@@ -21,12 +22,12 @@ def translate(way_text, way_result, lang_first, lang_sec='ru'):
     return 'Перевод осуществлён'
 
 
-print(translate('3.2.http.requests\\DE.txt',
-                '3.2.http.requests\\DE_RU.txt',
+print(translate(os.path.join('3.2.http.requests', 'DE.txt'),
+                os.path.join('3.2.http.requests', 'DE_RU.txt'),
                 'de'))
-print(translate('3.2.http.requests\\FR.txt',
-                '3.2.http.requests\\FR_RU.txt',
+print(translate(os.path.join('3.2.http.requests', 'FR.txt'),
+                os.path.join('3.2.http.requests', 'FR_RU.txt'),
                 'fr'))
-print(translate('3.2.http.requests\\ES.txt',
-                '3.2.http.requests\\ES_RU.txt',
+print(translate(os.path.join('3.2.http.requests', 'ES.txt)',
+                os.path.join('3.2.http.requests', 'ES_RU.txt)',
                 'es'))
